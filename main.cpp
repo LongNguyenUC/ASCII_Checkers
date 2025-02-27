@@ -134,8 +134,28 @@ void generatePossibleMoves(std::vector<int>& arr, std::string& position){
             }
         }
     }
-    else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){
-        //CHANGE LATER
+    else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){//Source of future errors?
+        if(COL-1 >= 0){
+            if(ownershipBoard[ROW+1][COL-1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL-1);
+            }
+            else if(ROW+2 <= 7 && COL-2 >= 0){
+                if(ownershipBoard[ROW+1][COL-1]==P1_NORM_PIECE_ID && ownershipBoard[ROW+2][COL-2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW+2)*10 + COL-2);
+                }
+            }
+        }
+
+        if(COL+1 <= 7){
+            if(ownershipBoard[ROW+1][COL+1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL+1);
+            }
+            else if(ROW+2 <= 7 && COL+2 <= 7){
+                if(ownershipBoard[ROW+1][COL+1]==P1_NORM_PIECE_ID && ownershipBoard[ROW+2][COL+2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW+2)*10 + COL+2);
+                }
+            }
+        }
     }
     else{
         //EXPAND FOR KINGS AND RINGS LATER
@@ -232,14 +252,12 @@ int main(){
                 setupCheckerBoard();
 
                 hasAvailableMoves = true;
-                positionOfPiece = "BAD_FIX";
+                
             }else{
                 std::cout << "Piece chosen can't move anywhere! ";
+                positionOfPiece = "CHANGED TO BREAK LOOP";
             }
         }
-
-       
-
         playerTurn = (playerTurn == 1 ? 2: 1);
     }
 }
