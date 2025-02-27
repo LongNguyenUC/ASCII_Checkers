@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 char checkerBoard[8][8];
 int ownershipBoard[8][8];
@@ -81,20 +82,129 @@ bool checkValidityOfChosenPiece(std::string &position, int playerTurnID){
         return false;
     }
 }
+
+// bool checkValidityOfMove(std::string& piecePosition, std::string& newPosition, int playerTurnID){
+//     if(newPosition.length() != 2){
+//         return false;
+//     }
+    
+//     int piecePos = piecePosition[0] - '0';
+//     int pieceCol = piecePosition[1] - '0';
+
+//     int newPosRow = newPosition[0] - '0';
+//     int newPosCol = newPosition[1] - '0';
+
+//     // Unnecessary check?
+//     // if(!(0 <= newPosRow && newPosRow <= 7) || !(0 <= newPosCol && newPosCol <= 7)){
+//     //     return false;
+//     // }
+
+//     if(playerTurnID == 1){
+//         if()
+//     }
+//     else{
+
+//     }
+// }
+void generatePossibleMoves(std::vector<int>& arr, std::string& position){
+    int ROW = position[0] - '0';
+    int COL = position[1] - '0';
+
+    if(ownershipBoard[ROW][COL] == P1_NORM_PIECE_ID){
+        if(COL-1 >= 0){
+            if(ownershipBoard[ROW-1][COL-1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW-1)*10 + COL-1);
+            }
+            else if(ROW-2 >=0 && COL-2 >= 0){
+                if(ownershipBoard[ROW-1][COL-1]==P2_NORM_PIECE_ID && ownershipBoard[ROW-2][COL-2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW-2)*10 + COL-2);
+                }
+            }
+        }
+
+        if(COL+1 <= 7){
+            if(ownershipBoard[ROW-1][COL+1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW-1)*10 + (COL+1));
+            }
+            else if(ROW-2 >=0 && COL+2 <= 7){
+                if(ownershipBoard[ROW-1][COL+1]==P2_NORM_PIECE_ID && ownershipBoard[ROW-2][COL+2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW-2)*10 + COL+2);
+                }
+            }
+        }
+    }
+    else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){
+        //CHANGE LATER
+    }
+    else{
+        //EXPAND FOR KINGS AND RINGS LATER
+    }
+}
+void displayPossibleMoves(std::vector<int>& arr){
+    for(int i = 0; i < arr.size(); i++){
+        std::cout << arr[i] << " ";
+    }
+}
+
+bool checkValidityOfMove(std::vector<int>& arr, std::string& choice){
+    if(choice.length() != 2){
+        return false;
+    }
+    int ROW = choice[0] -'0';
+    int COL = choice[1] - '0';
+
+    for(int i = 0; i < arr.size(); i++){
+        if(ROW==0){
+            if(arr[i] < 10 && COL == arr[i]){
+                return true;
+            }
+        }else if(ROW== arr[i]/10 && COL == arr[i]%10 ){
+            return true;
+        }
+        // std::cout << (arr[i]-(arr[i]%10))%10 << '\n';
+        // std::cout << arr[i]%10 << '\n';
+    }
+    return false;
+}
 int main(){
     setupOwnershipBoard();
     setupCheckerBoard();
-    displayCheckerBoard();
     int playerTurn = 1;
     while(true){
-        std::string poistionOfPiece;
+        displayCheckerBoard();
+        std::string positionOfPiece;
         std::cout << "Input the posititon of the piece you would like to move: ";
-        std::cin >> poistionOfPiece;
+        std::cin >> positionOfPiece;
+        bool hasAvailableMoves{false};
         
-        while(!checkValidityOfChosenPiece(poistionOfPiece, playerTurn)){
-            std::cout << "Not valid. Input the posititon of the piece you would like to move: ";
-            std::cin >> poistionOfPiece;
+        while(!hasAvailableMoves){
+            while(!checkValidityOfChosenPiece(positionOfPiece, playerTurn)){
+                std::cout << "Not valid. Input the posititon of the piece you would like to move: ";
+                std::cin >> positionOfPiece;
+            }
+            
+            std::vector<int> availableMoves;
+        
+            generatePossibleMoves(availableMoves, positionOfPiece);
+
+            if(availableMoves.size() > 0){
+                displayPossibleMoves(availableMoves);
+                std::cout << "\nChoose the move you would like to make: ";
+                std::string choice; std::cin >> choice;
+                while(!checkValidityOfMove(availableMoves, choice)){
+                    std::cout << "Not an available move! Please input an available move: ";
+                    std::cin >> choice;
+                }
+
+                
+                hasAvailableMoves = true;
+                positionOfPiece = "BAD_FIX";
+            }else{
+                std::cout << "Piece chosen can't move anywhere! ";
+            }
         }
+
+       
 
         playerTurn = (playerTurn == 1 ? 2: 1);
     }
