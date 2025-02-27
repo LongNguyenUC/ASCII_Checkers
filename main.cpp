@@ -200,7 +200,7 @@ void updateOwnershipBoard(std::string& positionOfPiece, std::string& positionToM
     ownershipBoard[MOVE_ROW][MOVE_COL] = currentPiece;
 
     if(abs(MOVE_ROW-PIECE_ROW) == 2){
-        ownershipBoard[std::min(PIECE_ROW, MOVE_ROW) - 1][std::max(PIECE_COL, MOVE_COL) - 1] = EMPTY_SPACE_ID;
+        ownershipBoard[std::min(PIECE_ROW, MOVE_ROW) + 1][std::max(PIECE_COL, MOVE_COL) - 1] = EMPTY_SPACE_ID;
         // TODO: Work on the updating of the board to be displayed to be more effiecient later
         // checkerBoard[std::min(PIECE_ROW, MOVE_ROW) - 1][std::max(PIECE_COL, MOVE_COL) - 1] = EMPTY_SPACE;
     }
