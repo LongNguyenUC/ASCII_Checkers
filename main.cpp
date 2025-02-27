@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 char checkerBoard[8][8];
 int ownershipBoard[8][8];
@@ -166,6 +167,37 @@ bool checkValidityOfMove(std::vector<int>& arr, std::string& choice){
     }
     return false;
 }
+
+void updateOwnershipBoard(std::string& positionOfPiece, std::string& positionToMoveTo){
+    int PIECE_ROW = positionOfPiece[0] - '0';
+    int PIECE_COL = positionOfPiece[1] - '0';
+
+    int MOVE_ROW = positionToMoveTo[0] - '0';
+    int MOVE_COL = positionToMoveTo[1] - '0';
+
+    int currentPiece = ownershipBoard[PIECE_ROW][PIECE_COL];
+    ownershipBoard[PIECE_ROW][PIECE_COL] = EMPTY_SPACE_ID;
+    ownershipBoard[MOVE_ROW][MOVE_COL] = currentPiece;
+
+    if(abs(MOVE_ROW-PIECE_ROW) == 2){
+        ownershipBoard[std::min(PIECE_ROW, MOVE_ROW) - 1][std::max(PIECE_COL, MOVE_COL) - 1] = EMPTY_SPACE_ID;
+        // TODO: Work on the updating of the board to be displayed to be more effiecient later
+        // checkerBoard[std::min(PIECE_ROW, MOVE_ROW) - 1][std::max(PIECE_COL, MOVE_COL) - 1] = EMPTY_SPACE;
+    }
+    
+    
+}
+
+//for debugging
+void displayOwnershipBoard(){
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            std::cout << ownershipBoard[i][j];
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+}
 int main(){
     setupOwnershipBoard();
     setupCheckerBoard();
@@ -195,8 +227,10 @@ int main(){
                     std::cout << "Not an available move! Please input an available move: ";
                     std::cin >> choice;
                 }
+                updateOwnershipBoard(positionOfPiece, choice);
+                displayOwnershipBoard();
+                setupCheckerBoard();
 
-                
                 hasAvailableMoves = true;
                 positionOfPiece = "BAD_FIX";
             }else{
