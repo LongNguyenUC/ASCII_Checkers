@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 char checkerBoard[8][8];
 int ownershipBoard[8][8];
@@ -84,29 +85,6 @@ bool checkValidityOfChosenPiece(std::string &position, int playerTurnID){
     }
 }
 
-// bool checkValidityOfMove(std::string& piecePosition, std::string& newPosition, int playerTurnID){
-//     if(newPosition.length() != 2){
-//         return false;
-//     }
-    
-//     int piecePos = piecePosition[0] - '0';
-//     int pieceCol = piecePosition[1] - '0';
-
-//     int newPosRow = newPosition[0] - '0';
-//     int newPosCol = newPosition[1] - '0';
-
-//     // Unnecessary check?
-//     // if(!(0 <= newPosRow && newPosRow <= 7) || !(0 <= newPosCol && newPosCol <= 7)){
-//     //     return false;
-//     // }
-
-//     if(playerTurnID == 1){
-//         if()
-//     }
-//     else{
-
-//     }
-// }
 void generatePossibleMoves(std::vector<int>& arr, std::string& position){
     int ROW = position[0] - '0';
     int COL = position[1] - '0';
@@ -163,7 +141,7 @@ void generatePossibleMoves(std::vector<int>& arr, std::string& position){
 }
 void displayPossibleMoves(std::vector<int>& arr){
     for(int i = 0; i < arr.size(); i++){
-        std::cout << arr[i] << " ";
+        std::cout << std::setfill('0') << std::setw(2) << arr[i] << " ";
     }
 }
 
@@ -182,8 +160,6 @@ bool checkValidityOfMove(std::vector<int>& arr, std::string& choice){
         }else if(ROW== arr[i]/10 && COL == arr[i]%10 ){
             return true;
         }
-        // std::cout << (arr[i]-(arr[i]%10))%10 << '\n';
-        // std::cout << arr[i]%10 << '\n';
     }
     return false;
 }
