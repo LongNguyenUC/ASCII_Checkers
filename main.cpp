@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+
 char checkerBoard[8][8];
 int ownershipBoard[8][8];
 
@@ -12,8 +14,6 @@ const int EMPTY_SPACE_ID{0};
 // Worry about the King pieces later
 // const int P1_KING_PIECE_ID{100};
 // const int P2_KING_PIECE_ID{200};
-
-
 
 void displayCheckerBoard(){
     for(int i = 0; i < 8; i++){
@@ -57,8 +57,45 @@ void setupCheckerBoard(){
         }
     }
 }
+
+bool checkValidityOfChosenPiece(std::string &position, int playerTurnID){
+    if(position.length() != 2){
+        return false;
+    }
+    int ROW = position[0] - '0';
+    int COLUMN = position[1] - '0';
+
+    if(!(0 <= ROW && ROW <= 7) || !(0 <= COLUMN && COLUMN <= 7)){
+        return false;
+    }
+
+    if(playerTurnID == 1){
+        if(ownershipBoard[ROW][COLUMN] == P1_NORM_PIECE_ID){
+            return true;
+        }
+        return false;
+    }else{
+        if(ownershipBoard[ROW][COLUMN] == P2_NORM_PIECE_ID){
+            return true;
+        }
+        return false;
+    }
+}
 int main(){
     setupOwnershipBoard();
     setupCheckerBoard();
     displayCheckerBoard();
+    int playerTurn = 1;
+    while(true){
+        std::string poistionOfPiece;
+        std::cout << "Input the posititon of the piece you would like to move: ";
+        std::cin >> poistionOfPiece;
+        
+        while(!checkValidityOfChosenPiece(poistionOfPiece, playerTurn)){
+            std::cout << "Not valid. Input the posititon of the piece you would like to move: ";
+            std::cin >> poistionOfPiece;
+        }
+
+        playerTurn = (playerTurn == 1 ? 2: 1);
+    }
 }
