@@ -116,29 +116,47 @@ void generatePossibleMoves(std::vector<int>& arr, std::string& position){
         }
     }
     else if(ownershipBoard[ROW][COL] ==P1_KING_PIECE_ID){
-        // if(COL-1 >= 0){
-        //     if(ownershipBoard[ROW-1][COL-1]== EMPTY_SPACE_ID){//Program sometimes accesses negative row elements but dosent fail (yet)
-        //         arr.push_back((ROW-1)*10 + COL-1);
-        //     }
-        //     else if(ROW-2 >=0 && COL-2 >= 0){
-        //         if((ownershipBoard[ROW-1][COL-1]==P2_NORM_PIECE_ID||ownershipBoard[ROW-1][COL-1]==P2_KING_PIECE_ID)
-        //             && ownershipBoard[ROW-2][COL-2] == EMPTY_SPACE_ID){
-        //             arr.push_back((ROW-2)*10 + COL-2);
-        //         }
-        //     }
-        // }
+        if(COL-1 >= 0){
+            if(ownershipBoard[ROW-1][COL-1]== EMPTY_SPACE_ID){//Program sometimes accesses negative row elements but dosent fail (yet)
+                arr.push_back((ROW-1)*10 + COL-1);
+            }
+            else if(ROW-2 >=0 && COL-2 >= 0){
+                if((ownershipBoard[ROW-1][COL-1]==P2_NORM_PIECE_ID||ownershipBoard[ROW-1][COL-1]==P2_KING_PIECE_ID)
+                    && ownershipBoard[ROW-2][COL-2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW-2)*10 + COL-2);
+                }
+            }
+            
+            if(ownershipBoard[ROW+1][COL-1]==EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL-1);
+            }else if(ROW+2 <= 7 && COL-2>=0){
+                if((ownershipBoard[ROW+1][COL-1]==P2_NORM_PIECE_ID||ownershipBoard[ROW+1][COL-1]==P2_KING_PIECE_ID)
+                    &&ownershipBoard[ROW+2][COL-2] == EMPTY_SPACE_ID){
+                        arr.push_back((ROW+2)*10 + COL-2);
+                }
+            }
+        }
 
-        // if(COL+1 <= 7){
-        //     if(ownershipBoard[ROW-1][COL+1]== EMPTY_SPACE_ID){
-        //         arr.push_back((ROW-1)*10 + (COL+1));
-        //     }
-        //     else if(ROW-2 >=0 && COL+2 <= 7){
-        //         if((ownershipBoard[ROW-1][COL+1]==P2_NORM_PIECE_ID||ownershipBoard[ROW-1][COL+1]==P2_KING_PIECE_ID)
-        //             && ownershipBoard[ROW-2][COL+2] == EMPTY_SPACE_ID){
-        //             arr.push_back((ROW-2)*10 + COL+2);
-        //         }
-        //     }
-        // }
+        if(COL+1 <= 7){
+            if(ownershipBoard[ROW-1][COL+1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW-1)*10 + (COL+1));
+            }
+            else if(ROW-2 >=0 && COL+2 <= 7){
+                if((ownershipBoard[ROW-1][COL+1]==P2_NORM_PIECE_ID||ownershipBoard[ROW-1][COL+1]==P2_KING_PIECE_ID)
+                    && ownershipBoard[ROW-2][COL+2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW-2)*10 + COL+2);
+                }
+            }
+
+            if(ownershipBoard[ROW+1][COL+1]==EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL+1);
+            }else if(ROW+2 <= 7 && COL+2<=7){
+                if((ownershipBoard[ROW+1][COL+1]==P2_NORM_PIECE_ID||ownershipBoard[ROW+1][COL+1]==P2_KING_PIECE_ID)
+                    &&ownershipBoard[ROW+2][COL+2] == EMPTY_SPACE_ID){
+                        arr.push_back((ROW+2)*10 + COL+2);
+                }
+            }
+        }
     }
     else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){//Source of future errors?
         if(COL-1 >= 0){
@@ -166,7 +184,72 @@ void generatePossibleMoves(std::vector<int>& arr, std::string& position){
         }
     }
     else{
+        if(COL-1 >= 0){
+            if(ownershipBoard[ROW-1][COL-1]== EMPTY_SPACE_ID){//Program sometimes accesses negative row elements but dosent fail (yet)
+                arr.push_back((ROW-1)*10 + COL-1);
+            }
+            else if(ROW-2 >=0 && COL-2 >= 0){
+                if((ownershipBoard[ROW-1][COL-1]==P1_NORM_PIECE_ID||ownershipBoard[ROW-1][COL-1]==P1_KING_PIECE_ID)
+                    && ownershipBoard[ROW-2][COL-2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW-2)*10 + COL-2);
+                }
+            }
+            
+            if(ownershipBoard[ROW+1][COL-1]==EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL-1);
+            }else if(ROW+2 <= 7 && COL-2>=0){
+                if((ownershipBoard[ROW+1][COL-1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL-1]==P1_KING_PIECE_ID)
+                    &&ownershipBoard[ROW+2][COL-2] == EMPTY_SPACE_ID){
+                        arr.push_back((ROW+2)*10 + COL-2);
+                }
+            }
+        }
 
+        if(COL+1 <= 7){
+            if(ownershipBoard[ROW-1][COL+1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW-1)*10 + (COL+1));
+            }
+            else if(ROW-2 >=0 && COL+2 <= 7){
+                if((ownershipBoard[ROW-1][COL+1]==P1_NORM_PIECE_ID||ownershipBoard[ROW-1][COL+1]==P1_KING_PIECE_ID)
+                    && ownershipBoard[ROW-2][COL+2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW-2)*10 + COL+2);
+                }
+            }
+
+            if(ownershipBoard[ROW+1][COL+1]==EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL+1);
+            }else if(ROW+2 <= 7 && COL+2<=7){
+                if((ownershipBoard[ROW+1][COL+1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL+1]==P1_KING_PIECE_ID)
+                    &&ownershipBoard[ROW+2][COL+2] == EMPTY_SPACE_ID){
+                        arr.push_back((ROW+2)*10 + COL+2);
+                }
+            }
+        }
+    }
+    else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){//Source of future errors?
+        if(COL-1 >= 0){
+            if(ownershipBoard[ROW+1][COL-1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL-1);
+            }
+            else if(ROW+2 <= 7 && COL-2 >= 0){
+                if((ownershipBoard[ROW+1][COL-1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL-1]==P1_KING_PIECE_ID)
+                    && ownershipBoard[ROW+2][COL-2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW+2)*10 + COL-2);
+                }
+            }
+        }
+
+        if(COL+1 <= 7){
+            if(ownershipBoard[ROW+1][COL+1]== EMPTY_SPACE_ID){
+                arr.push_back((ROW+1)*10 + COL+1);
+            }
+            else if(ROW+2 <= 7 && COL+2 <= 7){
+                if((ownershipBoard[ROW+1][COL+1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL+1]==P1_KING_PIECE_ID)
+                    && ownershipBoard[ROW+2][COL+2] == EMPTY_SPACE_ID){
+                    arr.push_back((ROW+2)*10 + COL+2);
+                }
+            }
+        }
     }
     
 }
