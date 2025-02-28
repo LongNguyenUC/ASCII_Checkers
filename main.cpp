@@ -231,34 +231,9 @@ void generatePossibleMoves(std::vector<int>& arr, std::string& position){
                 }
             }
         }
-    }
-    // else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){//Source of future errors?
-    //     if(COL-1 >= 0){
-    //         if(ownershipBoard[ROW+1][COL-1]== EMPTY_SPACE_ID){
-    //             arr.push_back((ROW+1)*10 + COL-1);
-    //         }
-    //         else if(ROW+2 <= 7 && COL-2 >= 0){
-    //             if((ownershipBoard[ROW+1][COL-1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL-1]==P1_KING_PIECE_ID)
-    //                 && ownershipBoard[ROW+2][COL-2] == EMPTY_SPACE_ID){
-    //                 arr.push_back((ROW+2)*10 + COL-2);
-    //             }
-    //         }
-    //     }
-
-    //     if(COL+1 <= 7){
-    //         if(ownershipBoard[ROW+1][COL+1]== EMPTY_SPACE_ID){
-    //             arr.push_back((ROW+1)*10 + COL+1);
-    //         }
-    //         else if(ROW+2 <= 7 && COL+2 <= 7){
-    //             if((ownershipBoard[ROW+1][COL+1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL+1]==P1_KING_PIECE_ID)
-    //                 && ownershipBoard[ROW+2][COL+2] == EMPTY_SPACE_ID){
-    //                 arr.push_back((ROW+2)*10 + COL+2);
-    //             }
-    //         }
-    //     }
-    // }
-    
+    }   
 }
+
 void displayPossibleMoves(std::vector<int>& arr){
     for(int i = 0; i < arr.size(); i++){
         std::cout << std::setfill('0') << std::setw(2) << arr[i] << " ";
@@ -324,6 +299,7 @@ int main(){
     setupCheckerBoard();
     int playerTurn = 1;
     while(true){
+        std::cout << "Player " << playerTurn << "'s Turn\n\n";
         displayCheckerBoard();
         std::string positionOfPiece;
         std::cout << "Input the posititon of the piece you would like to move: ";
@@ -349,9 +325,11 @@ int main(){
                     std::cin >> choice;
                 }
                 updateOwnershipBoard(positionOfPiece, choice, playerTurn);
-                displayOwnershipBoard();
+                //displayOwnershipBoard();
                 setupCheckerBoard();
-
+                for(int i = 0; i < 100; i++){
+                    std::cout << "-";
+                }std::cout << '\n';
                 hasAvailableMoves = true;
                 
             }else{
