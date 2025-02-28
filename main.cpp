@@ -54,6 +54,12 @@ void setupCheckerBoard(){
                 case(P2_NORM_PIECE_ID):
                     checkerBoard[ROW][COLUMN] = P2_NORM_PIECE;
                     break;
+                case(P1_KING_PIECE_ID):
+                    checkerBoard[ROW][COLUMN] = P1_KING_PIECE;
+                    break;
+                case(P2_KING_PIECE_ID):
+                    checkerBoard[ROW][COLUMN] = P2_KING_PIECE;
+                    break;
                 default:
                     checkerBoard[ROW][COLUMN] = EMPTY_SPACE;
                     break;
@@ -226,31 +232,31 @@ void generatePossibleMoves(std::vector<int>& arr, std::string& position){
             }
         }
     }
-    else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){//Source of future errors?
-        if(COL-1 >= 0){
-            if(ownershipBoard[ROW+1][COL-1]== EMPTY_SPACE_ID){
-                arr.push_back((ROW+1)*10 + COL-1);
-            }
-            else if(ROW+2 <= 7 && COL-2 >= 0){
-                if((ownershipBoard[ROW+1][COL-1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL-1]==P1_KING_PIECE_ID)
-                    && ownershipBoard[ROW+2][COL-2] == EMPTY_SPACE_ID){
-                    arr.push_back((ROW+2)*10 + COL-2);
-                }
-            }
-        }
+    // else if(ownershipBoard[ROW][COL] == P2_NORM_PIECE_ID){//Source of future errors?
+    //     if(COL-1 >= 0){
+    //         if(ownershipBoard[ROW+1][COL-1]== EMPTY_SPACE_ID){
+    //             arr.push_back((ROW+1)*10 + COL-1);
+    //         }
+    //         else if(ROW+2 <= 7 && COL-2 >= 0){
+    //             if((ownershipBoard[ROW+1][COL-1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL-1]==P1_KING_PIECE_ID)
+    //                 && ownershipBoard[ROW+2][COL-2] == EMPTY_SPACE_ID){
+    //                 arr.push_back((ROW+2)*10 + COL-2);
+    //             }
+    //         }
+    //     }
 
-        if(COL+1 <= 7){
-            if(ownershipBoard[ROW+1][COL+1]== EMPTY_SPACE_ID){
-                arr.push_back((ROW+1)*10 + COL+1);
-            }
-            else if(ROW+2 <= 7 && COL+2 <= 7){
-                if((ownershipBoard[ROW+1][COL+1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL+1]==P1_KING_PIECE_ID)
-                    && ownershipBoard[ROW+2][COL+2] == EMPTY_SPACE_ID){
-                    arr.push_back((ROW+2)*10 + COL+2);
-                }
-            }
-        }
-    }
+    //     if(COL+1 <= 7){
+    //         if(ownershipBoard[ROW+1][COL+1]== EMPTY_SPACE_ID){
+    //             arr.push_back((ROW+1)*10 + COL+1);
+    //         }
+    //         else if(ROW+2 <= 7 && COL+2 <= 7){
+    //             if((ownershipBoard[ROW+1][COL+1]==P1_NORM_PIECE_ID||ownershipBoard[ROW+1][COL+1]==P1_KING_PIECE_ID)
+    //                 && ownershipBoard[ROW+2][COL+2] == EMPTY_SPACE_ID){
+    //                 arr.push_back((ROW+2)*10 + COL+2);
+    //             }
+    //         }
+    //     }
+    // }
     
 }
 void displayPossibleMoves(std::vector<int>& arr){
@@ -278,7 +284,7 @@ bool checkValidityOfMove(std::vector<int>& arr, std::string& choice){
     return false;
 }
 
-void updateOwnershipBoard(std::string& positionOfPiece, std::string& positionToMoveTo){
+void updateOwnershipBoard(std::string& positionOfPiece, std::string& positionToMoveTo, int playerTurn){
     int PIECE_ROW = positionOfPiece[0] - '0';
     int PIECE_COL = positionOfPiece[1] - '0';
 
@@ -294,8 +300,12 @@ void updateOwnershipBoard(std::string& positionOfPiece, std::string& positionToM
         // TODO: Work on the updating of the board to be displayed to be more effiecient later
         // checkerBoard[std::min(PIECE_ROW, MOVE_ROW) - 1][std::max(PIECE_COL, MOVE_COL) - 1] = EMPTY_SPACE;
     }
-    
-    
+   
+    if(playerTurn == 1 && MOVE_ROW == 0){
+        ownershipBoard[MOVE_ROW][MOVE_COL] = P1_KING_PIECE_ID;
+    }else if(playerTurn == 2 && MOVE_ROW == 7){
+        ownershipBoard[MOVE_ROW][MOVE_COL] = P2_KING_PIECE_ID;
+    }
 }
 
 //for debugging
@@ -310,6 +320,7 @@ void displayOwnershipBoard(){
 }
 int main(){
     setupOwnershipBoard();
+    ownershipBoard[5][0] = P1_KING_PIECE_ID;
     setupCheckerBoard();
     int playerTurn = 1;
     while(true){
@@ -337,7 +348,7 @@ int main(){
                     std::cout << "Not an available move! Please input an available move: ";
                     std::cin >> choice;
                 }
-                updateOwnershipBoard(positionOfPiece, choice);
+                updateOwnershipBoard(positionOfPiece, choice, playerTurn);
                 displayOwnershipBoard();
                 setupCheckerBoard();
 
