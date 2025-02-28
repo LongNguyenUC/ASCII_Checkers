@@ -340,7 +340,6 @@ int checkWhoWon(){
 
 int main(){
     setupOwnershipBoard();
-    ownershipBoard[5][0] = P1_KING_PIECE_ID;
     setupCheckerBoard();
     int playerTurn = 1;
     while(true){
