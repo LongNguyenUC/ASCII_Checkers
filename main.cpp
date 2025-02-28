@@ -20,12 +20,20 @@ const int P1_KING_PIECE_ID{100};
 const int P2_KING_PIECE_ID{200};
 
 void displayCheckerBoard(){
+    std::cout << "  ";
     for(int i = 0; i < 8; i++){
+        std::cout << i << " ";
+    }
+    std::cout << '\n';
+
+    for(int i = 0; i < 8; i++){
+        std::cout << i << " ";
         for(int j = 0; j < 8; j++){
-            std::cout << checkerBoard[i][j];
+            std::cout << checkerBoard[i][j] << " ";
         }
         std::cout << '\n';
     }
+    std::cout << '\n';
 }
 
 void setupOwnershipBoard(){
