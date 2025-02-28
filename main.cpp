@@ -20,14 +20,17 @@ const int P1_KING_PIECE_ID{100};
 const int P2_KING_PIECE_ID{200};
 
 void displayCheckerBoard(){
+    //Displays the column numbers
     std::cout << "  ";
     for(int i = 0; i < 8; i++){
         std::cout << i << " ";
     }
     std::cout << '\n';
 
+
     for(int i = 0; i < 8; i++){
-        std::cout << i << " ";
+        std::cout << i << " ";//Displays the row numbers
+        //Displays checkerboard
         for(int j = 0; j < 8; j++){
             std::cout << checkerBoard[i][j] << " ";
         }
@@ -301,6 +304,40 @@ void displayOwnershipBoard(){
     }
     std::cout << '\n';
 }
+
+int checkWhoWon(){
+    int p1_cnt = 0;
+    int p2_cnt = 0;
+    for(int ROW = 0; ROW < 8; ROW++){
+        for(int COLUMN = 0; COLUMN < 8; COLUMN++){
+            switch(ownershipBoard[ROW][COLUMN]){
+                case(P1_NORM_PIECE_ID):
+                    p1_cnt++;
+                    break;
+                case(P2_NORM_PIECE_ID):
+                    p2_cnt++;
+                    break;
+                case(P1_KING_PIECE_ID):
+                    p1_cnt++;
+                    break;
+                case(P2_KING_PIECE_ID):
+                    p2_cnt++;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    if(p2_cnt==0){
+        return 1;
+    }else if(p1_cnt == 0){
+        return 2;
+    }else{
+        return 0;
+    }
+}
+
 int main(){
     setupOwnershipBoard();
     ownershipBoard[5][0] = P1_KING_PIECE_ID;
@@ -344,6 +381,12 @@ int main(){
                 std::cout << "Piece chosen can't move anywhere! ";
                 positionOfPiece = "CHANGED TO BREAK LOOP";
             }
+        }
+        int winner = checkWhoWon();
+        if(winner != 0){
+            displayCheckerBoard();
+            std::cout << "Player " << winner << " wins!";
+            break;
         }
         playerTurn = (playerTurn == 1 ? 2: 1);
     }
